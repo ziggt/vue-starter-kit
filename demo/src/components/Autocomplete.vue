@@ -24,7 +24,7 @@ ul {
 }
 
 ul.show {
-  display: block;
+    display: block;
 }
 
 ul li {
@@ -42,11 +42,10 @@ ul li {
 <template>
 
 <div id="autocomplete">
-    <input type="text" v-model="value" @keydown.down="moveDown" @keydown.up="moveUp" @keydown.enter="selectByEnter" />
+    <input type="text" v-model="value" @keydown.down="moveDown" @keydown.up="moveUp" @keydown.enter="selectByEnter" @focus="showAndComplete" @blur="hide" />
     <ul :class="{show: listVisible}">
         <!-- Saisikohan 2-way bindingin tehtyä helpommin? Tarkista v-model ja sync... -->
-        <AutocompleteItem v-for="(v, index) in values" :key="index" :index="index" :value="v.value" :isActive="v.isActive"
-          @clicked="selectByClick" @hovered="activateItem" @mouseleft="deactivateItem" />
+        <AutocompleteItem v-for="(v, index) in values" :key="index" :index="index" :value="v.value" :isActive="v.isActive" @clicked="selectByClick" @hovered="activateItem" @mouseleft="deactivateItem" />
     </ul>
 </div>
 
@@ -67,7 +66,8 @@ export default {
             value: '',
             countries: [],
             locked: false,
-            listVisible: false
+            listVisible: false,
+            listLocked: false
         }
     },
     watch: {
@@ -75,7 +75,7 @@ export default {
             this.debouncedComplete();
         },
         values: function() {
-          this.listVisible = this.values && this.values.length > 0;
+            this.listVisible = this.values && this.values.length > 0;
         }
     },
     created: function() {
@@ -122,11 +122,13 @@ export default {
         activateItem: function(index) {
             const item = this.values.find(value => value.index == index);
             item.isActive = true;
+            this.listLocked = true;
         },
 
         deactivateItem: function(index) {
             const item = this.values.find(value => value.index == index);
             item.isActive = false;
+            this.listLocked = false;
         },
 
         moveDown: function() {
@@ -183,6 +185,17 @@ export default {
             selected.isActive = false;
             this.values = [];
             this.locked = true;
+        },
+
+        showAndComplete: function() {
+            this.listVisible = true;
+            this.complete();
+        },
+
+        hide: function() {
+            if (!this.listLocked) {
+                this.listVisible = false;
+            }
         }
 
     },
