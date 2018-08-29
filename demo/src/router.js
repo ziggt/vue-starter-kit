@@ -22,6 +22,16 @@ export default new Router({
       path: '/datatableview',
       name: 'datatableview',
       component: () => import('./views/DatatableView.vue')
+    },
+    {      
+      path: '/vuetifydatatableview',
+      name: 'vuetifydatatableview',
+      component: () => import('./views/VuetifyDatatableView.vue')
+    },
+     {      
+      path: '/kalenteriview',
+      name: 'kalenteriview',
+      component: () => import('./views/KalenteriView.vue')
     }
   ]
 })
