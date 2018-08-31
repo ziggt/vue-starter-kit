@@ -1,7 +1,9 @@
 <template>
+  <!-- <v-data-table :headers="headers" :items="rows" hide-actions item-key="name"> -->
   <v-data-table :headers="headers" :items="rows" hide-actions item-key="name">
     <template slot="items" slot-scope="props">
-      <tr @click="props.expanded = !props.expanded">
+      <tr>
+      	<td><button @click="props.expanded = !props.expanded">Avaa</button></td>
         <td>{{ props.item.name }}</td>
         <td class="text-xs-right">{{ props.item.region }}</td>
         <td class="text-xs-right">{{ props.item.capital }}</td>
@@ -9,9 +11,7 @@
       </tr>
     </template>
     <template slot="expand" slot-scope="props">
-      <v-card flat>
-        <v-card-text>{{ props.item.name }}</v-card-text>
-      </v-card>
+      	<p>lisätietoja yms.</p>
     </template>
   </v-data-table>
 </template>
@@ -22,7 +22,7 @@ export default {
   name: 'OmaVuetifyDatatable',
   data() {
     return {
-      headers: [{
+      headers: [{text:'',sortable:false},{
           text: 'Nimi',
           align: 'left',
           sortable: true,
@@ -30,7 +30,7 @@ export default {
         },
         { text: 'Alue', value: 'region' },
         { text: 'Pääkaupunki', value: 'capital' },
-        { text: 'Väkiluku', value: 'population',type:'number' }
+        { text: 'Väkiluku', value: 'population', type: 'number' }
       ],
       rows: []
     }

@@ -21,6 +21,7 @@ Vaihtoehtoinen nav bar
           <v-btn flat to="/autocompleteview">Autocomplete</v-btn>
           <v-btn flat to="/datatableview">Datatable</v-btn>
           <v-btn flat to="/vuetifydatatableview">Vuetify Datatable</v-btn>
+          <v-btn flat to="/vuetifyautocomplete">Vuetify Autocomplete</v-btn>
           <v-btn flat to="/kalenteriview">Kalenteri</v-btn>
         </v-toolbar-items>
       </v-toolbar>

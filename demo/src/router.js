@@ -32,6 +32,10 @@ export default new Router({
       path: '/kalenteriview',
       name: 'kalenteriview',
       component: () => import('./views/KalenteriView.vue')
+    },{      
+      path: '/vuetifyautocomplete',
+      name: 'vuetifyautocomplete',
+      component: () => import('./views/VuetifyAutocomplete.vue')
     }
   ]
 })
