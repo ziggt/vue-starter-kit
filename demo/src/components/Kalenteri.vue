@@ -8,7 +8,7 @@
 <template>
   <div>
     <div class="kalenteriCenter">
-      <datepicker placeholder="Valitse päiväys" format="dd.MM.yyyy" @selected="valitsePvm"></datepicker>
+      <datepicker placeholder="Valitse päiväys" format="dd.MM.yyyy" monday-first=true  @selected="valitsePvm"></datepicker>
     </div>
     <div>
       <p class="center-text">valinta: {{state.date}}</p>
