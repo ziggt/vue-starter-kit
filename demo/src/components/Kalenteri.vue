@@ -4,50 +4,61 @@
   align-items: center;
   justify-content: center;
 }
+
+.test {
+  text-align: justify !important;
+}
 </style>
-<template>
+<template class="test">
   <div>
-    <div class="kalenteriCenter">
-      <datepicker placeholder="Valitse päiväys" format="dd.MM.yyyy" monday-first=true  @selected="valitsePvm"></datepicker>
-    </div>
-    <div>
-      <p class="center-text">valinta: {{state.date}}</p>
-    </div>
+    <p class="center-text">Valittu päiväys: <strong>{{ pvm }}</strong></p>
+    <v-menu ref="menu1" :close-on-content-click="false" v-model="menu1" :nudge-right="40" lazy offset-y transition="scale-transition" full-width>
+      <v-text-field slot="activator" v-model="calendarDate" label="Klikkaa antaaksesi päivämäärä" persistent-hint prepend-icon="event" @change="parseDate"></v-text-field>
+      <v-date-picker first-day-of-week=1 locale="fi-fi" no-title @input="reformatDate"></v-date-picker>
+    </v-menu>
   </div>
 </template>
 
 <script>
-//MIT Lisenssi https://github.com/charliekassel/vuejs-datepicker
-import Datepicker from "vuejs-datepicker/dist/vuejs-datepicker.esm.js";
-
 //MIT Lisenssi https://momentjs.com/
 import moment from 'moment';
 
-let state = {
-  date: moment(new Date()).format('DD.MM.YYYY')
-};
-
-console.log(state.date);
-
 export default {
   name: 'Kalenteri',
-  components: {
-    Datepicker
-  },
+
   data() {
     return {
-      state: state,
-      valittuPvm: null
+      pvm: moment(new Date()).format('DD.MM.YYYY').toString(),
+      menu1: false,
+      calendarDate: moment(new Date()).format('DD.MM.YYYY').toString()
     }
+
   },
   methods: {
-    valitsePvm(selection) {
-      console.log("valittu pvm: " + moment(selection).format('DD.MM.YYYY'));
-      state.date = moment(selection).format('DD.MM.YYYY');
+    parseDate(input) {
 
+      if (input == null) {
+        return null;
+      } else {
+        const regex = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/gm;
+        if (regex.exec(input)) {
+          this.pvm = input;
+        }
+      }
+      this.calendarDate = this.pvm;
+      return this.pvm;
+    },
+    reformatDate(input) {
+
+      if (input == null) {
+        return null;
+      }
+      const [year, month, day] = input.split('-');
+
+      this.pvm = `${day}.${month}.${year}`;
+      this.calendarDate = this.pvm;
+      return `${day}.${month}.${year}`;
     }
   }
-
-
 };
 </script>

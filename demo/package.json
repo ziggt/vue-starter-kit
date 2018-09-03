@@ -15,7 +15,6 @@
     "vue": "^2.5.16",
     "vue-good-table": "^2.12.2",
     "vue-router": "^3.0.1",
-    "vuejs-datepicker": "^1.5.3",
     "vuetify": "^1.2.0"
   },
   "devDependencies": {

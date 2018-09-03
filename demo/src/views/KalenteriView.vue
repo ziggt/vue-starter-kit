@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Vuejs kalenteri</h1>
+    <h1>Vuetify date-picker</h1>
     <Kalenteri />
   </div>
 </template>
