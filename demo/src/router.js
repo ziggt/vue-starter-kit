@@ -36,6 +36,10 @@ export default new Router({
       path: '/vuetifyautocomplete',
       name: 'vuetifyautocomplete',
       component: () => import('./views/VuetifyAutocomplete.vue')
+    },{      
+      path: '/vuedraggableview',
+      name: 'vuedraggableview',
+      component: () => import('./views/VueDraggableView.vue')
     }
   ]
 })
