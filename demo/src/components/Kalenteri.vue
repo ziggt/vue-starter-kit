@@ -14,7 +14,7 @@
     <p class="center-text">Valittu päiväys: <strong>{{ pvm }}</strong></p>
     <v-menu ref="menu1" :close-on-content-click="false" v-model="menu1" :nudge-right="40" lazy offset-y transition="scale-transition" full-width>
       <v-text-field slot="activator" v-model="calendarDate" label="Klikkaa antaaksesi päivämäärä" persistent-hint prepend-icon="event" @change="parseDate"></v-text-field>
-      <v-date-picker first-day-of-week=1 locale="fi-fi" no-title @input="reformatDate"></v-date-picker>
+      <v-date-picker v-model="calendarModelDate" first-day-of-week=1 locale="fi-fi" no-title @input="reformatDate"></v-date-picker>
     </v-menu>
   </div>
 </template>
@@ -30,12 +30,20 @@ export default {
     return {
       pvm: moment(new Date()).format('DD.MM.YYYY').toString(),
       menu1: false,
-      calendarDate: moment(new Date()).format('DD.MM.YYYY').toString()
+      calendarDate: moment(new Date()).format('DD.MM.YYYY').toString(),
+      calendarModelDate: null
     }
 
   },
+  created() {
+
+    let [date, month, year] = this.calendarDate.split('.');
+    let parsed = year + "-" + month + "-" + date;
+    this.calendarModelDate = parsed;
+  },
   methods: {
     parseDate(input) {
+
 
       if (input == null) {
         return null;
@@ -43,10 +51,30 @@ export default {
         const regex = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/gm;
         if (regex.exec(input)) {
           this.pvm = input;
+
+
         }
       }
       this.calendarDate = this.pvm;
+      this.calendarModelDate = this.parseCalendar(this.calendarDate);
       return this.pvm;
+
+
+
+      /* const regex = /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/gm;
+       if (regex.exec(input)) {
+         this.calendarDate = input;
+         this.pvm = this.calendarDate;
+         this.calendarModelDate = this.parseCalendar(this.calendarDate);
+
+       }
+       return this.pvm;*/
+
+    },
+    parseCalendar(paivamaara) {
+      let [date, month, year] = paivamaara.split('.');
+      let parsed = year + "-" + month + "-" + date;
+      return parsed;
     },
     reformatDate(input) {
 
@@ -54,9 +82,9 @@ export default {
         return null;
       }
       const [year, month, day] = input.split('-');
-
-      this.pvm = `${day}.${month}.${year}`;
-      this.calendarDate = this.pvm;
+      this.calendarDate = `${day}.${month}.${year}`;
+      this.pvm = this.calendarDate;
+      this.calendarModelDate = this.parseCalendar(this.calendarDate);
       return `${day}.${month}.${year}`;
     }
   }
